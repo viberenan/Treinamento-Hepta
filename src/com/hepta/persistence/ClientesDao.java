@@ -71,6 +71,8 @@ public class ClientesDao {
 			pstm.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}finally {
+			Conexao.close(conn, pstm, null);
 		}
 	}
 
