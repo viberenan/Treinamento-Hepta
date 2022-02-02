@@ -123,11 +123,13 @@ public class ClientesDao {
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, idCliente);
 			rs = pstm.executeQuery();
-			cliente = new Clientes();
-			cliente.setId(rs.getInt("id"));
-			cliente.setNome(rs.getString("nome"));
-			cliente.setEmail(rs.getString("email"));
-			cliente.setFone(rs.getString("telefone"));
+			if (rs.next()) {
+				cliente = new Clientes();
+				cliente.setId(rs.getInt("id"));
+				cliente.setNome(rs.getString("nome"));
+				cliente.setEmail(rs.getString("email"));
+				cliente.setFone(rs.getString("telefone"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {

@@ -1,13 +1,11 @@
 package com.hepta.entity;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.Arrays;
 
 public class OrdemServico {
 
 	private Integer id;
-	private Date data;
+	private String data;
 	private String equipamento;
 	private String servico;
 	private BigDecimal valor;
@@ -22,11 +20,11 @@ public class OrdemServico {
 		this.id = id;
 	}
 
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 
@@ -73,6 +71,6 @@ public class OrdemServico {
 	@Override
 	public String toString() {
 		return "OrdemServico [id=" + id + ", data=" + data + ", equipamento=" + equipamento + ", servico=" + servico
-				+ ", valor=" + valor + ", nota=" + Arrays.toString(nota) + ", idCliente=" + idCliente + "]";
+				+ ", valor=" + valor + ", nota=" + nota + ", idCliente=" + idCliente + "]";
 	}
 }
