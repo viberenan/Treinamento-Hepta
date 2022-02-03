@@ -42,7 +42,7 @@ public class ClientesService {
 	}
 
 	/**
-	 * Retornar todos os clientes.
+	 * Retorna todos os clientes.
 	 * 
 	 * @return response 200 (OK) - Conseguiu listar
 	 */
@@ -62,15 +62,97 @@ public class ClientesService {
 	}
 
 	/**
-	 * Métodos simples apenas para testar o REST
+	 * Busca Cliente pelo Id.
 	 * 
-	 * @return
+	 * @param idCliente: Id do Cliente
+	 * @return response 200 (OK) - Conseguiu Buscar
 	 */
-	@Path("/teste")
-	@Produces(MediaType.TEXT_PLAIN)
+	@Path("/{idCliente}")
+	@Produces(MediaType.APPLICATION_JSON)
 	@GET
-	public String TesteJersey() {
-		return "Funcionando.";
+	public Response clienteReadId(@PathParam("idCliente") int idCliente) {
+		Clientes cliente = new Clientes();
+		cliente = dao.findById(idCliente);
+		if (cliente == null) {
+			return Response.status(Status.BAD_REQUEST).entity("Cliente não encontrado").build();
+		}
+		return Response.status(Status.OK).entity(cliente).build();
 	}
 
+	/**
+	 * Adiciona um novo Cliente
+	 * 
+	 * @param cliente
+	 * @return response 201 - Conseguiu Criar
+	 */
+	@Path("/inserir")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@POST
+	public Response clienteCreate(Clientes cliente) {
+		if (isValidCliente(cliente) == false) {
+			return Response.status(Status.BAD_REQUEST).entity("Campos obrigatórios não preenchidos").build();
+		}
+		if (dao.findByEmail(cliente.getEmail()) != null) {
+			return Response.status(Status.BAD_REQUEST).entity("Cliente já cadastrado").build();
+		}
+		dao.save(cliente);
+		return Response.status(Status.CREATED).build();
+	}
+
+	/**
+	 * Atualiza um Cliente
+	 * 
+	 * @param idCliente
+	 * @return response 200 (OK) - Conseguiu Atualizar
+	 */
+	@Path("/atualizar/{idCliente}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@PUT
+	public Response clienteUpdate(@PathParam("idCliente") int idCliente, Clientes cliente) {
+		if (isValidCliente(cliente) == false) {
+			return Response.status(Status.BAD_REQUEST).entity("Campos obrigatórios não preenchidos").build();
+		}
+		if (dao.findByEmail(cliente.getEmail()) != null) {
+			return Response.status(Status.BAD_REQUEST).entity("Email já cadastrado").build();
+		}
+		if (dao.findById(idCliente) == null) {
+			return Response.status(Status.BAD_REQUEST).entity("Cliente não cadastrado").build();
+		}
+		cliente.setId(idCliente);
+		dao.update(cliente);
+		return Response.status(Status.OK).build();
+	}
+
+	/**
+	 * Deleta um Cliente
+	 * 
+	 * @param idCliente
+	 * @return 204 (No content) - Cliente removido com sucesso
+	 */
+	@Path("/deletar/{idCliente}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@DELETE
+	public Response clienteDelete(@PathParam("idCliente") int idCliente) {
+		Clientes cliente = dao.findById(idCliente);
+		if (cliente == null) {
+			return Response.status(Status.BAD_REQUEST).entity("Cliente não encontrado").build();
+		}
+		dao.delete(cliente);
+		return Response.noContent().build();
+	}
+
+	/**
+	 * Verifica se cliente é valido
+	 * 
+	 * @param cliente
+	 * @return Boolean
+	 */
+	public Boolean isValidCliente(Clientes cliente) {
+		if (cliente.getNome() == null || cliente.getFone() == null || cliente.getEmail() == null) {
+			return false;
+		}
+		return true;
+	}
 }

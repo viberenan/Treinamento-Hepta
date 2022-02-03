@@ -48,7 +48,7 @@ public class ClientesDao {
 			pstm.setString(2, cliente.getEmail());
 			pstm.setString(3, cliente.getFone());
 			pstm.setInt(4, cliente.getId());
-			pstm.execute();
+			pstm.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -71,7 +71,7 @@ public class ClientesDao {
 			pstm.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
+		} finally {
 			Conexao.close(conn, pstm, null);
 		}
 	}
@@ -122,6 +122,37 @@ public class ClientesDao {
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setInt(1, idCliente);
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				cliente = new Clientes();
+				cliente.setId(rs.getInt("id"));
+				cliente.setNome(rs.getString("nome"));
+				cliente.setEmail(rs.getString("email"));
+				cliente.setFone(rs.getString("telefone"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Conexao.close(conn, pstm, rs);
+		}
+		return cliente;
+	}
+
+	/**
+	 * Busca Cliente pelo email
+	 * 
+	 * @param email
+	 * @return Cliente
+	 */
+	public Clientes findByEmail(String email) {
+		Connection conn = Conexao.open();
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM clientes WHERE email = ?";
+		Clientes cliente = null;
+		try {
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, email);
 			rs = pstm.executeQuery();
 			if (rs.next()) {
 				cliente = new Clientes();
