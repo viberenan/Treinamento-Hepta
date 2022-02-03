@@ -9,21 +9,22 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.hepta.dtos.ClienteOsDto;
 import com.hepta.entity.Clientes;
 import com.hepta.entity.OrdemServico;
 
 public class OrdemServicoDao {
-	
-	private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy"); 
+
+	private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
 	/**
 	 * Salva uma nova ordem de Serviço
 	 * 
 	 * @param cliente
 	 * @param os
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
-	public void save(Clientes cliente, OrdemServico os) throws ParseException{
+	public void save(Clientes cliente, OrdemServico os) throws ParseException {
 		java.sql.Date sqlDate = null;
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
@@ -53,7 +54,7 @@ public class OrdemServicoDao {
 	 * 
 	 * @param cliente
 	 * @param os
-	 * @throws ParseException 
+	 * @throws ParseException
 	 */
 	public void update(Clientes cliente, OrdemServico os) throws ParseException {
 		java.util.Date date = format.parse(os.getData());
@@ -134,36 +135,38 @@ public class OrdemServicoDao {
 	 * Retorna uma lista de ordem de serviço por cliente.
 	 * 
 	 * @param cliente
-	 * @return List<OrdemServico>
+	 * @return List<ClienteOsDto>
 	 */
-	public List<OrdemServico> findByCliente(Clientes cliente) {
+	public List<ClienteOsDto> findByCliente(Integer idCliente) {
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		String sql = "SELECT * FROM os WHERE idcli = ?";
-		List<OrdemServico> oss = new ArrayList<OrdemServico>();
-		OrdemServico os = null;
+		String sql = "select os.id, os.data, os.equipamento, os.servico, os.valor, os.nota, clientes.nome, clientes.telefone from os join clientes on os.idcli = clientes.id "
+				+ "WHERE os.idcli = ?;";
+		List<ClienteOsDto> coss = new ArrayList<ClienteOsDto>();
+		ClienteOsDto cos = null;
 		try {
 			pstm = conn.prepareStatement(sql);
-			pstm.setInt(1, cliente.getId());
+			pstm.setInt(1, idCliente);
 			rs = pstm.executeQuery();
 			while (rs.next()) {
-				os = new OrdemServico();
-				os.setId(rs.getInt("id"));
-				//os.setData(formato.format(rs.getDate("data")));
-				os.setEquipamento(rs.getString("equipamento"));
-				os.setServico(rs.getString("servico"));
-				os.setValor(rs.getBigDecimal("valor"));
-				os.setNota(rs.getBytes("nota"));
-				os.setIdCliente(rs.getInt("idcli"));
-				oss.add(os);
+				cos = new ClienteOsDto();
+				cos.setOsId(rs.getInt("os.id"));
+				cos.setData(format.format(rs.getDate("os.data")));
+				cos.setNome(rs.getString("clientes.nome"));
+				cos.setFone(rs.getString("clientes.telefone"));
+				cos.setEquipamento(rs.getString("os.equipamento"));
+				cos.setServico(rs.getString("os.servico"));
+				cos.setValor(rs.getBigDecimal("os.valor"));
+				cos.setNota(rs.getBytes("os.nota"));
+				coss.add(cos);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			Conexao.close(conn, pstm, rs);
 		}
-		return oss;
+		return coss;
 	}
 
 }
