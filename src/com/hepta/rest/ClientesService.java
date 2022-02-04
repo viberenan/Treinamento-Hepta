@@ -97,7 +97,7 @@ public class ClientesService {
 			return Response.status(Status.BAD_REQUEST).entity("Cliente já cadastrado").build();
 		}
 		dao.save(cliente);
-		return Response.status(Status.CREATED).build();
+		return Response.status(Status.CREATED).entity(cliente).build();
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class ClientesService {
 		}
 		cliente.setId(idCliente);
 		dao.update(cliente);
-		return Response.status(Status.OK).build();
+		return Response.status(Status.OK).entity(cliente).build();
 	}
 
 	/**

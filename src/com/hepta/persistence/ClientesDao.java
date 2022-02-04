@@ -15,30 +15,39 @@ public class ClientesDao {
 	 * Salva o cliente no Banco de dados.
 	 * 
 	 * @param cliente
+	 * @return Cliente
 	 */
-	public void save(Clientes cliente) {
+	public Clientes save(Clientes cliente) {
+		String[] returnId = { "BATCHID" };
+		ResultSet rs = null;
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
 		String sql = "INSERT INTO clientes(nome, email, telefone) VALUES (?,?,?)";
 		try {
-			pstm = conn.prepareStatement(sql);
+			pstm = conn.prepareStatement(sql, returnId);
 			pstm.setString(1, cliente.getNome());
 			pstm.setString(2, cliente.getEmail());
 			pstm.setString(3, cliente.getFone());
 			pstm.executeUpdate();
+			rs = pstm.getGeneratedKeys();
+			if (rs.next()) {
+				cliente.setId(rs.getInt(1));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			Conexao.close(conn, pstm, null);
+			Conexao.close(conn, pstm, rs);
 		}
+		return cliente;
 	}
 
 	/**
 	 * Atualiza um Cliente no Banco de dados.
 	 * 
 	 * @param cliente
+	 * @return Cliente
 	 */
-	public void update(Clientes cliente) {
+	public Clientes update(Clientes cliente) {
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
 		String sql = "UPDATE clientes SET nome = ?, email = ?, telefone = ? WHERE id = ?";
@@ -54,6 +63,7 @@ public class ClientesDao {
 		} finally {
 			Conexao.close(conn, pstm, null);
 		}
+		return cliente;
 	}
 
 	/**
