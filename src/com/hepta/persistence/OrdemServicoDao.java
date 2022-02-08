@@ -24,8 +24,10 @@ public class OrdemServicoDao {
 	 * @param os
 	 * @throws ParseException
 	 */
-	public void save(Clientes cliente, OrdemServico os) throws ParseException {
+	public OrdemServico save(Clientes cliente, OrdemServico os) throws ParseException {
 		java.sql.Date sqlDate = null;
+		String[] returnId = { "BATCHID" };
+		ResultSet rs = null;
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
 		String sql = "INSERT INTO os(data, equipamento, servico, valor, nota, idcli) VALUES (?,?,?,?,?,?)";
@@ -34,7 +36,7 @@ public class OrdemServicoDao {
 			sqlDate = new java.sql.Date(date.getTime());
 		}
 		try {
-			pstm = conn.prepareStatement(sql);
+			pstm = conn.prepareStatement(sql, returnId);
 			pstm.setDate(1, sqlDate);
 			pstm.setString(2, os.getEquipamento());
 			pstm.setString(3, os.getServico());
@@ -42,11 +44,17 @@ public class OrdemServicoDao {
 			pstm.setBytes(5, os.getNota());
 			pstm.setInt(6, cliente.getId());
 			pstm.execute();
+			rs = pstm.getGeneratedKeys();
+			if (rs.next()) {
+				os.setId(rs.getInt(1));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			Conexao.close(conn, pstm, null);
 		}
+		os.setIdCliente(cliente.getId());
+		return os;
 	}
 
 	/**
@@ -56,7 +64,7 @@ public class OrdemServicoDao {
 	 * @param os
 	 * @throws ParseException
 	 */
-	public void update(Clientes cliente, OrdemServico os) throws ParseException {
+	public OrdemServico update(Clientes cliente, OrdemServico os) throws ParseException {
 		java.util.Date date = format.parse(os.getData());
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		Connection conn = Conexao.open();
@@ -77,6 +85,7 @@ public class OrdemServicoDao {
 		} finally {
 			Conexao.close(conn, pstm, null);
 		}
+		return os;
 	}
 
 	/**

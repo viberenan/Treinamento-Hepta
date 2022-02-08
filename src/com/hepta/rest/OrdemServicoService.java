@@ -37,7 +37,7 @@ public class OrdemServicoService {
 
 	private OrdemServicoDao dao;
 
-	ClientesDao clientesDao;
+	private ClientesDao clientesDao;
 
 	public OrdemServicoService() {
 		dao = new OrdemServicoDao();
@@ -87,10 +87,10 @@ public class OrdemServicoService {
 
 		Clientes cliente = clientesDao.findById(os.getIdCliente());
 		if (cliente == null) {
-			return Response.status(Status.BAD_REQUEST).entity("Cliente não possui ordem de serviço").build();
+			return Response.status(Status.BAD_REQUEST).entity("Cliente inválido").build();
 		}
 		dao.save(cliente, os);
-		return Response.status(Status.CREATED).build();
+		return Response.status(Status.CREATED).entity(os).build();
 	}
 
 	/**
@@ -118,7 +118,7 @@ public class OrdemServicoService {
 		}
 		ordemServico.setId(idOs);
 		dao.update(cliente, ordemServico);
-		return Response.status(Status.OK).build();
+		return Response.status(Status.OK).entity(ordemServico).build();
 	}
 
 	/**
