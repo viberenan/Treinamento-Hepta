@@ -1,6 +1,5 @@
 package com.hepta.dtos;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 
 public class ClienteOsDto {
@@ -11,7 +10,6 @@ public class ClienteOsDto {
 	private String data;
 	private String equipamento;
 	private String servico;
-	private BigDecimal valor;
 	private byte[] nota;
 
 	public Integer getOsId() {
@@ -62,14 +60,6 @@ public class ClienteOsDto {
 		this.servico = servico;
 	}
 
-	public BigDecimal getValor() {
-		return valor;
-	}
-
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
-	}
-
 	public byte[] getNota() {
 		return nota;
 	}
@@ -81,7 +71,7 @@ public class ClienteOsDto {
 	@Override
 	public String toString() {
 		return "ClienteOsDto [osId=" + osId + ", nome=" + nome + ", fone=" + fone + ", data=" + data + ", equipamento="
-				+ equipamento + ", servico=" + servico + ", valor=" + valor + ", nota=" + Arrays.toString(nota) + "]";
+				+ equipamento + ", servico=" + servico + ", nota=" + Arrays.toString(nota) + "]";
 	}
 
 }

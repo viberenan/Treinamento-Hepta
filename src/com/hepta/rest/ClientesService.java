@@ -91,10 +91,10 @@ public class ClientesService {
 	@POST
 	public Response clienteCreate(Clientes cliente) {
 		if (isValidCliente(cliente) == false) {
-			return Response.status(Status.BAD_REQUEST).entity("Campos obrigatórios não preenchidos").build();
+			return Response.status(Status.BAD_REQUEST).entity("Campos Obrigatórios não preenchidos").type(MediaType.APPLICATION_JSON).build();
 		}
 		if (dao.findByEmail(cliente.getEmail()) != null) {
-			return Response.status(Status.BAD_REQUEST).entity("Cliente já cadastrado").build();
+			return Response.status(Status.BAD_REQUEST).entity("Email já cadastrado").type(MediaType.APPLICATION_JSON).build();
 		}
 		dao.save(cliente);
 		return Response.status(Status.CREATED).entity(cliente).build();
@@ -112,7 +112,7 @@ public class ClientesService {
 	@PUT
 	public Response clienteUpdate(@PathParam("idCliente") int idCliente, Clientes cliente) {
 		if (isValidCliente(cliente) == false) {
-			return Response.status(Status.BAD_REQUEST).entity("Campos obrigatórios não preenchidos").build();
+
 		}
 		if (dao.findByEmail(cliente.getEmail()) != null) {
 			return Response.status(Status.BAD_REQUEST).entity("Email já cadastrado").build();

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <title>Cadastro de Cliente</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="titulo">CADASTRO ORDEM DE SERVIÇO</h1>
+        <form id="form">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="data">Data</label><input id="data" type="date" class="form-control">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="equipamento">Equipamento</label> <input type="text" id="equipamento"
+                        class="form-control" placeholder="Equipamento">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="servico">Serviço</label> <input type="text" id="servico" class="form-control"
+                        placeholder="Serviço">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="nota">Nota(PDF)</label> <input type="file" id="nota"  accept="application/pdf"/>
+                </div>
+                <div class="form-group col-md-12">
+                    <button type="button" class="waves-effect waves-ligth btn-small" id="btnSalvar"
+                        onClick="cadastrarOs()">Cadastrar</button>
+                </div>
+            </Div>
+    </div>
+    </form>
+    </div>
+    <script src="resources/js/cadastroos.js"></script>
+</body>
+
+</html>

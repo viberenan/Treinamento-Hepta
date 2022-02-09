@@ -11,14 +11,19 @@ function cadastrarCliente() {
     fetch('http://localhost:8080/treinamento-hepta/rest/clientes/inserir', {
         method: 'POST',
         headers: {
-            "Content-Type": 'application/json'
+            "Content-Type": 'application/json',
+            'Accept': 'application/json'
         },
         body: data
     })
-        .then(res => alert(res))
-        .catch(res => alert (res))
-}
+        .then(res => {
+            if (res.status == 201) {
+                alert("Cadastrado com sucesso");
+                window.location.href = "index.html"
+            } else {
+                res.text().then(data => alert(data));
+            }
 
-function goBack() {
-    window.history.back()
+        })
+
 }

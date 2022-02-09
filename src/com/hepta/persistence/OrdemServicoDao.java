@@ -30,7 +30,7 @@ public class OrdemServicoDao {
 		ResultSet rs = null;
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
-		String sql = "INSERT INTO os(data, equipamento, servico, valor, nota, idcli) VALUES (?,?,?,?,?,?)";
+		String sql = "INSERT INTO os(data, equipamento, servico, nota, idcli) VALUES (?,?,?,?,?)";
 		if (os.getData() != null) {
 			java.util.Date date = format.parse(os.getData());
 			sqlDate = new java.sql.Date(date.getTime());
@@ -40,9 +40,8 @@ public class OrdemServicoDao {
 			pstm.setDate(1, sqlDate);
 			pstm.setString(2, os.getEquipamento());
 			pstm.setString(3, os.getServico());
-			pstm.setBigDecimal(4, os.getValor());
-			pstm.setBytes(5, os.getNota());
-			pstm.setInt(6, cliente.getId());
+			pstm.setBytes(4, os.getNota());
+			pstm.setInt(5, cliente.getId());
 			pstm.execute();
 			rs = pstm.getGeneratedKeys();
 			if (rs.next()) {
@@ -69,16 +68,15 @@ public class OrdemServicoDao {
 		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
-		String sql = "UPDATE os SET data = ?, equipamento = ?, servico = ?, valor = ?, nota = ?, idcli = ? WHERE id = ?";
+		String sql = "UPDATE os SET data = ?, equipamento = ?, servico = ?, nota = ?, idcli = ? WHERE id = ?";
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setDate(1, sqlDate);
 			pstm.setString(2, os.getEquipamento());
 			pstm.setString(3, os.getServico());
-			pstm.setBigDecimal(4, os.getValor());
-			pstm.setBytes(5, os.getNota());
-			pstm.setInt(6, cliente.getId());
-			pstm.setInt(7, os.getId());
+			pstm.setBytes(4, os.getNota());
+			pstm.setInt(5, cliente.getId());
+			pstm.setInt(6, os.getId());
 			pstm.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -128,7 +126,6 @@ public class OrdemServicoDao {
 				os.setData(rs.getDate("data").toString());
 				os.setEquipamento(rs.getString("equipamento"));
 				os.setServico(rs.getString("servico"));
-				os.setValor(rs.getBigDecimal("valor"));
 				os.setNota(rs.getBytes("nota"));
 				os.setIdCliente(rs.getInt("idcli"));
 			}
@@ -150,7 +147,7 @@ public class OrdemServicoDao {
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		String sql = "select os.id, os.data, os.equipamento, os.servico, os.valor, os.nota, clientes.nome, clientes.telefone from os join clientes on os.idcli = clientes.id "
+		String sql = "select os.id, os.data, os.equipamento, os.servico, os.nota, clientes.nome, clientes.telefone from os join clientes on os.idcli = clientes.id "
 				+ "WHERE os.idcli = ?;";
 		List<ClienteOsDto> coss = new ArrayList<ClienteOsDto>();
 		ClienteOsDto cos = null;
@@ -166,7 +163,6 @@ public class OrdemServicoDao {
 				cos.setFone(rs.getString("clientes.telefone"));
 				cos.setEquipamento(rs.getString("os.equipamento"));
 				cos.setServico(rs.getString("os.servico"));
-				cos.setValor(rs.getBigDecimal("os.valor"));
 				cos.setNota(rs.getBytes("os.nota"));
 				coss.add(cos);
 			}

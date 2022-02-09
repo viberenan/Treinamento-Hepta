@@ -1,12 +1,13 @@
 listaClientes();
 
 function listaClientes() {
+    localStorage.removeItem('id');
     try {
         fetch('http://localhost:8080/treinamento-hepta/rest/clientes/', {
             method: 'GET',
-        headers: {
-            "Content-Type": 'application/json'
-        },
+            headers: {
+                "Content-Type": 'application/json'
+            },
         })
             .then((response) => response.json())
             .then((data) => {
@@ -30,15 +31,16 @@ function listaClientes() {
     }
 }
 
-function deleteCliente(idCliente){
-
+function deleteCliente(idCliente) {
+    if (confirm('Deseja Excluir ?')) {
         fetch('http://localhost:8080/treinamento-hepta/rest/clientes/deletar/' + idCliente, {
             method: 'DELETE',
         })
-        .then(response => {
-            alert(response)
-            listaClientes();
-        })
-        .catch(error => alert(error))
+            .then(data => {
+                listaClientes();
+            })
+
+            .catch(error => alert(error))
+    }
 }
 

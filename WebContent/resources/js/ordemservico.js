@@ -22,7 +22,7 @@ function listaOrdemServico() {
                 </td>
                 <td> 
                     <button class="button">&#9998;</button>
-                    <button class="buttonDanger">&#9746;</button>
+                    <button class="buttonDanger" onClick="deleteOrdemServico('${item.osId}')">&#9746;</button>
                 </td>
                 </tr>`
                 })
@@ -44,11 +44,25 @@ function base64ToArrayBuffer(base64) {
 }
 
 function abrirBlob(blob) {
-    var file64 = base64ToArrayBuffer(blob); 
+    var file64 = base64ToArrayBuffer(blob);
     var file = new Blob([file64], { type: "application/pdf" });
     var imageUrl = URL.createObjectURL(file);
     window.open(imageUrl);
-   
+
 }
+
+function deleteOrdemServico(idOs) {
+    if (confirm('Deseja Excluir ?')) {
+        fetch('http://localhost:8080/treinamento-hepta/rest/os/deletar/' + idOs, {
+            method: 'DELETE',
+        })
+            .then(data => {
+                listaOrdemServico();
+            })
+            .catch(error => alert(error))
+    }
+}
+
+
 
 listaOrdemServico();

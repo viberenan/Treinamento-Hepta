@@ -146,8 +146,8 @@ public class OrdemServicoService {
 	 * @return Boolean
 	 */
 	public Boolean isValidOrdemServico(OrdemServico os) {
-		if (os.getData() == null || os.getEquipamento() == null || os.getIdCliente() == null || os.getServico() == null
-				|| os.getValor() == null) {
+		if (os.getData() == null || os.getEquipamento() == null || os.getIdCliente() == null
+				|| os.getServico() == null) {
 			return false;
 		}
 		return true;
