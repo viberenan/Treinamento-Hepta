@@ -39,7 +39,6 @@ function cadastrarOs() {
                         } else {
                             res.text().then(data => alert(data));
                         }
-
                     })
             }
         });

@@ -91,10 +91,12 @@ public class ClientesService {
 	@POST
 	public Response clienteCreate(Clientes cliente) {
 		if (isValidCliente(cliente) == false) {
-			return Response.status(Status.BAD_REQUEST).entity("Campos Obrigatórios não preenchidos").type(MediaType.APPLICATION_JSON).build();
+			return Response.status(Status.BAD_REQUEST).entity("Campos Obrigatórios não preenchidos")
+					.type(MediaType.APPLICATION_JSON).build();
 		}
 		if (dao.findByEmail(cliente.getEmail()) != null) {
-			return Response.status(Status.BAD_REQUEST).entity("Email já cadastrado").type(MediaType.APPLICATION_JSON).build();
+			return Response.status(Status.BAD_REQUEST).entity("Email já cadastrado").type(MediaType.APPLICATION_JSON)
+					.build();
 		}
 		dao.save(cliente);
 		return Response.status(Status.CREATED).entity(cliente).build();
@@ -111,14 +113,21 @@ public class ClientesService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@PUT
 	public Response clienteUpdate(@PathParam("idCliente") int idCliente, Clientes cliente) {
+		Clientes validCliente = null;
 		if (isValidCliente(cliente) == false) {
-
+			return Response.status(Status.BAD_REQUEST).entity("Campos Obrigatórios não preenchidos")
+					.type(MediaType.APPLICATION_JSON).build();
 		}
 		if (dao.findByEmail(cliente.getEmail()) != null) {
-			return Response.status(Status.BAD_REQUEST).entity("Email já cadastrado").build();
+			validCliente = dao.findByEmail(cliente.getEmail());
+			if (validCliente.getId() != idCliente) {
+				return Response.status(Status.BAD_REQUEST).entity("Email já cadastrado").type(MediaType.APPLICATION_JSON)
+						.build();
+			}
 		}
 		if (dao.findById(idCliente) == null) {
-			return Response.status(Status.BAD_REQUEST).entity("Cliente não cadastrado").build();
+			return Response.status(Status.BAD_REQUEST).entity("Cliente não cadastrado").type(MediaType.APPLICATION_JSON)
+					.build();
 		}
 		cliente.setId(idCliente);
 		dao.update(cliente);

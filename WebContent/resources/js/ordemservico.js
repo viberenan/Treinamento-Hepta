@@ -1,4 +1,5 @@
 function listaOrdemServico() {
+    localStorage.removeItem('idOs');
     try {
         fetch('http://localhost:8080/treinamento-hepta/rest/os/' + localStorage.getItem('id'), {
             method: 'GET',
@@ -21,7 +22,7 @@ function listaOrdemServico() {
                     <button class="button" onClick="abrirBlob('${item.nota}')">Visualizar</button>
                 </td>
                 <td> 
-                    <button class="button">&#9998;</button>
+                <a href="alteraros.html"><button class="button" onclick = "localStorage.setItem('idOs', ${item.osId})">&#9998;</button></a>
                     <button class="buttonDanger" onClick="deleteOrdemServico('${item.osId}')">&#9746;</button>
                 </td>
                 </tr>`

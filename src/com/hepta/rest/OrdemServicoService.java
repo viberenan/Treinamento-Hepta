@@ -70,6 +70,28 @@ public class OrdemServicoService {
 	}
 
 	/**
+	 * Busca Ordem de serviço por ID
+	 * 
+	 * @param idOs
+	 * @return Ordem de Serviço
+	 */
+	@Path("/buscarid/{idOs}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@GET
+	public Response ordemServicoPorId(@PathParam("idOs") int idOs) {
+		try {
+			OrdemServico os = new OrdemServico();
+			os = dao.findById(idOs);
+			if (os == null) {
+				return Response.status(Status.BAD_REQUEST).entity("Ordem de Serviço não encontrada").build();
+			}
+			return Response.status(Status.OK).entity(os).build();
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity("Erro ao buscar ordem de serviço").build();
+		}
+	}
+
+	/**
 	 * Adciona uma nova ordem de serviço
 	 * 
 	 * @param os

@@ -28,3 +28,7 @@
   #btnModificar{
     display: inherit;
   }
+
+  #labelArquivoCarregado{
+    padding-right: 5px;
+  }

@@ -20,7 +20,7 @@ function listaClientes() {
                 <td> ${item.email} </td>
                 <td> <a href="ordemservico.html" onclick = "localStorage.setItem('id', ${item.id})">Ordem de Serviço</a> </td>
                 <td> 
-                    <button class="button">&#9998;</button>
+                    <a href="alterarcliente.html"><button class="button" onclick = "localStorage.setItem('id', ${item.id})">&#9998;</button></a>       
                     <button class="buttonDanger" onClick= "deleteCliente('${item.id}')">&#9746;</button>
                 </td>
                 </tr>`

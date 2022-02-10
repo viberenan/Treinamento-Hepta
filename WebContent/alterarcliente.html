@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="PT-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-store" />
+    <title>Alterar Cliente</title>
+    <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="titulo">ALTERAR CLIENTE</h1>
+        <form id="form">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="nome">Nome</label> <input type="text" id="nome" class="form-control"
+                        placeholder="Nome completo">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="salario">Telefone</label> <input type="text" id="telefone" class="form-control"
+                        placeholder="Telefone">
+                </div>
+                <div class="form-group col-md-10">
+                    <label for="email">E-mail</label> <input type="email" class="form-control" id="email"
+                        placeholder="E-mail">
+                </div>
+                <div class="form-group col-md-12">
+                    <button type="button" class="waves-effect waves-ligth btn-small" id="btnSalvar"
+                        onclick="alterarCliente()">Salvar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="resources/js/alterarcliente.js"></script>
+</body>
+
+</html>

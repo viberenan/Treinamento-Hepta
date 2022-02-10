@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-store" />
-    <title>Cadastro de Ordem de Serviço</title>
+    <title>Alterar de Ordem de Serviço</title>
     <link rel="stylesheet" type="text/css" href="resources/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="resources/css/index.css">
 </head>
 
 <body>
     <div class="container">
-        <h1 class="titulo">CADASTRO ORDEM DE SERVIÇO</h1>
+        <h1 class="titulo">ALTERAR ORDEM DE SERVIÇO</h1>
         <form id="form">
             <div class="form-row">
                 <div class="form-group col-md-2">
@@ -26,17 +26,20 @@
                         placeholder="Serviço">
                 </div>
                 <div class="form-group col-md-12">
-                    <label for="nota">Nota(PDF)</label> <input type="file" id="nota"  accept="application/pdf"/>
+                    <label id="labelArquivoCarregado">Arquivo Atual:</label><button type="button" class="button">Visualizar</button>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="nota">Novo Arquivo(PDF)</label> <input type="file" id="nota" accept="application/pdf" />
                 </div>
                 <div class="form-group col-md-12">
                     <button type="button" class="waves-effect waves-ligth btn-small" id="btnSalvar"
-                        onClick="cadastrarOs()">Cadastrar</button>
+                        onClick="atualizarOs()">Salvar</button>
                 </div>
             </Div>
     </div>
     </form>
     </div>
-    <script src="resources/js/cadastroos.js"></script>
+    <script src="resources/js/alteraros.js"></script>
 </body>
 
 </html>
