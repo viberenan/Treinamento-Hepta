@@ -21,6 +21,7 @@ import javax.ws.rs.core.Response.Status;
 
 import com.hepta.entity.Clientes;
 import com.hepta.persistence.ClientesDao;
+import com.hepta.persistence.OrdemServicoDao;
 
 @Path("/clientes")
 public class ClientesService {
@@ -33,8 +34,11 @@ public class ClientesService {
 
 	private ClientesDao dao;
 
+	private OrdemServicoDao daoOs;
+
 	public ClientesService() {
 		dao = new ClientesDao();
+		daoOs = new OrdemServicoDao();
 	}
 
 	protected void setRequest(HttpServletRequest request) {
@@ -121,8 +125,8 @@ public class ClientesService {
 		if (dao.findByEmail(cliente.getEmail()) != null) {
 			validCliente = dao.findByEmail(cliente.getEmail());
 			if (validCliente.getId() != idCliente) {
-				return Response.status(Status.BAD_REQUEST).entity("Email já cadastrado").type(MediaType.APPLICATION_JSON)
-						.build();
+				return Response.status(Status.BAD_REQUEST).entity("Email já cadastrado")
+						.type(MediaType.APPLICATION_JSON).build();
 			}
 		}
 		if (dao.findById(idCliente) == null) {
@@ -147,6 +151,10 @@ public class ClientesService {
 		Clientes cliente = dao.findById(idCliente);
 		if (cliente == null) {
 			return Response.status(Status.BAD_REQUEST).entity("Cliente não encontrado").build();
+		}
+		if (!daoOs.findByCliente(idCliente).isEmpty()) {
+			return Response.status(Status.BAD_REQUEST)
+					.entity("Cliente não pode ser excluido pois possui ordem de serviço").build();
 		}
 		dao.delete(cliente);
 		return Response.noContent().build();

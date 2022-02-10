@@ -147,7 +147,7 @@ public class OrdemServicoDao {
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
-		String sql = "select os.id, os.data, os.equipamento, os.servico, os.nota, clientes.nome, clientes.telefone from os join clientes on os.idcli = clientes.id "
+		String sql = "select os.id, os.data, os.equipamento, os.servico, os.nota, clientes.nome, clientes.fone from os join clientes on os.idcli = clientes.id "
 				+ "WHERE os.idcli = ?;";
 		List<ClienteOsDto> coss = new ArrayList<ClienteOsDto>();
 		ClienteOsDto cos = null;
@@ -160,7 +160,7 @@ public class OrdemServicoDao {
 				cos.setOsId(rs.getInt("os.id"));
 				cos.setData(format.format(rs.getDate("os.data")));
 				cos.setNome(rs.getString("clientes.nome"));
-				cos.setFone(rs.getString("clientes.telefone"));
+				cos.setFone(rs.getString("clientes.fone"));
 				cos.setEquipamento(rs.getString("os.equipamento"));
 				cos.setServico(rs.getString("os.servico"));
 				cos.setNota(rs.getBytes("os.nota"));

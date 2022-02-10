@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response.Status;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
+import org.glassfish.jersey.test.TestProperties;
 import org.junit.After;
 import org.junit.Test;
 
@@ -29,6 +30,7 @@ public class ClientesServiceTest extends JerseyTest {
 
 	@Override
 	protected Application configure() {
+		forceSet(TestProperties.CONTAINER_PORT, "0");
 		return new ResourceConfig(ClientesService.class);
 	}
 

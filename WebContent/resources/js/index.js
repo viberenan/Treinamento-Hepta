@@ -38,6 +38,9 @@ function deleteCliente(idCliente) {
         })
             .then(data => {
                 listaClientes();
+                if (data.status != 204) {
+                    data.text().then(res => alert(res));
+                }
             })
 
             .catch(error => alert(error))

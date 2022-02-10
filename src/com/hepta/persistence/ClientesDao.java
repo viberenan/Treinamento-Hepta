@@ -22,7 +22,7 @@ public class ClientesDao {
 		ResultSet rs = null;
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
-		String sql = "INSERT INTO clientes(nome, email, telefone) VALUES (?,?,?)";
+		String sql = "INSERT INTO clientes(nome, email, fone) VALUES (?,?,?)";
 		try {
 			pstm = conn.prepareStatement(sql, returnId);
 			pstm.setString(1, cliente.getNome());
@@ -50,7 +50,7 @@ public class ClientesDao {
 	public Clientes update(Clientes cliente) {
 		Connection conn = Conexao.open();
 		PreparedStatement pstm = null;
-		String sql = "UPDATE clientes SET nome = ?, email = ?, telefone = ? WHERE id = ?";
+		String sql = "UPDATE clientes SET nome = ?, email = ?, fone = ? WHERE id = ?";
 		try {
 			pstm = conn.prepareStatement(sql);
 			pstm.setString(1, cliente.getNome());
@@ -106,7 +106,7 @@ public class ClientesDao {
 				cliente.setId(rs.getInt("id"));
 				cliente.setNome(rs.getString("nome"));
 				cliente.setEmail(rs.getString("email"));
-				cliente.setFone(rs.getString("telefone"));
+				cliente.setFone(rs.getString("fone"));
 				clientes.add(cliente);
 			}
 		} catch (SQLException e) {
@@ -138,7 +138,7 @@ public class ClientesDao {
 				cliente.setId(rs.getInt("id"));
 				cliente.setNome(rs.getString("nome"));
 				cliente.setEmail(rs.getString("email"));
-				cliente.setFone(rs.getString("telefone"));
+				cliente.setFone(rs.getString("fone"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,7 +169,7 @@ public class ClientesDao {
 				cliente.setId(rs.getInt("id"));
 				cliente.setNome(rs.getString("nome"));
 				cliente.setEmail(rs.getString("email"));
-				cliente.setFone(rs.getString("telefone"));
+				cliente.setFone(rs.getString("fone"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
